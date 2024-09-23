@@ -5,10 +5,12 @@ import 'leaflet/dist/leaflet.css'
 import L from 'leaflet'
 import styles from './map.module.css'
 import { MaptilerLayer } from '@maptiler/leaflet-maptilersdk'
+import "@maptiler/sdk/dist/maptiler-sdk.css";
+import * as maptilersdk from '@maptiler/sdk';
 
 import { Battle } from '../types'
 
-type MapProps = {
+type BattleMapProps = {
   battles: Battle[]
 }
 
@@ -18,7 +20,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: '/images/marker-shadow.png',
 })
 
-const Map: FC<MapProps> = ({ battles }) => {
+const BattleMap: FC<BattleMapProps> = ({ battles }) => {
   const mapContainer = useRef<HTMLDivElement | null>(null)
   const map = useRef<L.Map | null>(null)
   const center = { lng: 113, lat: 34 }
@@ -35,6 +37,8 @@ const Map: FC<MapProps> = ({ battles }) => {
 
       const mtLayer = new MaptilerLayer({
         apiKey: process.env.NEXT_PUBLIC_MAPTILER_API_KEY || '',
+        //style: maptilersdk.MapStyle.WINTER,
+        style: 'https://api.maptiler.com/maps/3248a2f1-6bc3-480f-9bfc-50439c96592f/style.json?key=XQT6n226c8uDhF910NU4',
       }).addTo(map.current)
 
       battles.forEach((battle) => {
@@ -42,9 +46,9 @@ const Map: FC<MapProps> = ({ battles }) => {
 
         marker.bindPopup(`
                   <strong>${battle.battleNameJp}</strong> (${battle.year})<br />
-                  Outcome: ${battle.outcomeJp}<br />
-                  Commanders: ${battle.commandersJp}<br />
-                  Casualties: ${battle.casualties}
+                  結果: ${battle.outcomeJp}<br />
+                  武将: ${battle.commandersJp}<br />
+                  死傷者: ${battle.casualties}
                 `)
       })
     }
@@ -57,4 +61,4 @@ const Map: FC<MapProps> = ({ battles }) => {
   )
 }
 
-export default Map
+export default BattleMap

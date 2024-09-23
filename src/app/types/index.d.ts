@@ -28,3 +28,23 @@ export type Battle = {
   latitude: number
   longitude: number
 }
+
+export type FeatureProperties = {
+  name: string;
+  faction1: string;
+  faction1_jp: string;
+  start_year: number;
+  end_year: number;
+  event: string;
+  event_jp: string;
+}
+
+export type Feature = {
+  id?: number;
+  type: 'Feature';
+  properties: FeatureProperties;
+  geometry: {
+    type: 'Point';
+    coordinates: [number, number];
+  };
+}
